@@ -25,7 +25,3 @@ variable "KEY_NAME" {
 variable "VPC_SEC_GROUP_IDS" {
   default = ["sg-09942af026876a201"]
 }
-
-variable "USER" {
-  default = "ec2-user"
-}
