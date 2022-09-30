@@ -1,0 +1,10 @@
+---
+- name: "Install Apache Server"
+  apt:
+    name: apache2
+    state: latest
+
+- name: "Start Apache Server"
+  systemd:
+    state: started
+    name: apache2

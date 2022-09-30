@@ -29,4 +29,4 @@ override.tf.json
 # example: *tfplan*
 
 # Exclude created ssh-keys
-**/ssh-keys/
+**/.ssh-keys/

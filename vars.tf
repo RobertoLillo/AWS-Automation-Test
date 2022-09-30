@@ -25,3 +25,15 @@ variable "KEY_NAME" {
 variable "VPC_SEC_GROUP_IDS" {
   default = ["sg-09942af026876a201"]
 }
+
+variable "SSH_USER" {
+  default = "ubuntu"
+}
+
+variable "SSH-KEY_PUBLIC" {
+  default = ".ssh-keys/provisioning.pub"
+}
+
+variable "SSH-KEY_PRIVATE" {
+  default = ".ssh-keys/provisioning"
+}
