@@ -6,6 +6,7 @@ Just a test repository used to learn how Terraform sets up EC2 instances on AWS.
 
 1. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 2. [Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli)
+3. [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html)
 
 ## Documentation
 

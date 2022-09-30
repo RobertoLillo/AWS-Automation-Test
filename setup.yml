@@ -1,0 +1,9 @@
+---
+- name: "Basic Provisioning"
+  hosts: all
+  remote_user: ubuntu
+  become: true
+  
+  roles:
+    - common
+    - apache

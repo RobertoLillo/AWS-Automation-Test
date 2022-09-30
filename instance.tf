@@ -1,3 +1,16 @@
+# SSH Key
+# Provides an EC2 key pair resource.
+# A key pair is used to control login access to EC2 instances.
+resource "aws_key_pair" "terraform-key" {
+  key_name   = "terraform-key"
+  public_key = file(var.SSH-KEY_PUBLIC)
+
+  tags = {
+    Name    = "terraform-key"
+    Project = "Terraform"
+  }
+}
+
 # VPC (Virtual Private Cloud)
 # Provides a VPC resource.
 resource "aws_vpc" "terraform-vpc" {
@@ -140,13 +153,35 @@ resource "aws_instance" "terraform-ubuntu" {
   instance_type     = var.INSTANCE_TYPE
   availability_zone = var.ZONE1
   key_name          = var.KEY_NAME
+
   network_interface {
     device_index         = 0
     network_interface_id = aws_network_interface.terraform-network_interface.id
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo 'Wait until SSH is ready'"
+    ]
+
+    connection {
+      type        = "ssh"
+      user        = var.SSH_USER
+      private_key = file(var.SSH-KEY_PRIVATE)
+      host        = self.public_ip
+    }
+  }
+
+  provisioner "local-exec" {
+    command = "ansible-playbook -i ${aws_instance.terraform-ubuntu.public_ip}, --private-key ${var.SSH-KEY_PRIVATE} setup.yml"
   }
 
   tags = {
     Name    = "terraform-ubuntu"
     Project = "Terraform"
   }
+}
+
+output "terraform-ubuntu_ip" {
+  value = aws_instance.terraform-ubuntu.public_ip
 }
