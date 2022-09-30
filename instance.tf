@@ -1,4 +1,5 @@
-# VPC
+# VPC (Virtual Private Cloud)
+# Provides a VPC resource.
 resource "aws_vpc" "terraform-vpc" {
   cidr_block = "10.0.0.0/16"
 
@@ -9,6 +10,7 @@ resource "aws_vpc" "terraform-vpc" {
 }
 
 # Internet Gateway
+# Provides a resource to create a VPC Internet Gateway.
 resource "aws_internet_gateway" "terraform-gateway" {
   vpc_id = aws_vpc.terraform-vpc.id
 
@@ -19,6 +21,7 @@ resource "aws_internet_gateway" "terraform-gateway" {
 }
 
 # Custom Route Table
+# Provides a resource to create a VPC routing table.
 resource "aws_route_table" "terraform-route_table" {
   vpc_id = aws_vpc.terraform-vpc.id
 
@@ -39,6 +42,7 @@ resource "aws_route_table" "terraform-route_table" {
 }
 
 # Subnet
+# Provides an VPC subnet resource.
 resource "aws_subnet" "terraform-subnet" {
   vpc_id            = aws_vpc.terraform-vpc.id
   cidr_block        = "10.0.1.0/24"
@@ -51,12 +55,15 @@ resource "aws_subnet" "terraform-subnet" {
 }
 
 # Route Table Association
+# Provides a resource to create an association between a route table and a 
+# subnet or a route table and an internet gateway or virtual private gateway.
 resource "aws_route_table_association" "terraform-route_table_association" {
   subnet_id      = aws_subnet.terraform-subnet.id
   route_table_id = aws_route_table.terraform-route_table.id
 }
 
 # Security Group
+# Provides a security group resource.
 resource "aws_security_group" "terraform-security_group" {
   name        = "allow_web_traffic"
   description = "Allows Web inbound traffic"
@@ -100,6 +107,7 @@ resource "aws_security_group" "terraform-security_group" {
 }
 
 # Network Interface
+# Provides an Elastic network interface (ENI) resource.
 resource "aws_network_interface" "terraform-network_interface" {
   subnet_id       = aws_subnet.terraform-subnet.id
   security_groups = [aws_security_group.terraform-security_group.id]
@@ -112,6 +120,7 @@ resource "aws_network_interface" "terraform-network_interface" {
 }
 
 # Assing Elastic IP
+# Provides an Elastic IP resource.
 resource "aws_eip" "terraform-eip" {
   vpc                       = true
   network_interface         = aws_network_interface.terraform-network_interface.id
@@ -124,6 +133,8 @@ resource "aws_eip" "terraform-eip" {
 }
 
 # Ubuntu Instance
+# Provides an EC2 instance resource. This allows instances to be
+# created, updated, and deleted. Instances also support provisioning.
 resource "aws_instance" "terraform-ubuntu" {
   ami               = var.AMIS[var.REGION]
   instance_type     = var.INSTANCE_TYPE
